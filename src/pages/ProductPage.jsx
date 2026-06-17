@@ -50,7 +50,7 @@ function ProductPage({ addToCart }) {
       <div style={imageBox(isMobile)}>
         <div style={{ position: "relative" }}>
           <img
-            src={`${import.meta.env.VITE_API_URL}/${product.image}`}
+            src={`${product.image?.startsWith("http") ? product.image : `${import.meta.env.VITE_API_URL}/${product.image}`}`}
             alt={product.name}
             style={{
               ...image(isMobile),
@@ -209,4 +209,5 @@ const addBtn = { width: "100%", padding: "16px", color: "#fff", border: "none", 
 const cartBtn = { width: "100%", padding: "14px", background: "#fff", color: "#000", border: "2px solid #000", borderRadius: "30px", fontSize: "15px", fontWeight: "bold", cursor: "pointer" };
 
 export default ProductPage;
+
 

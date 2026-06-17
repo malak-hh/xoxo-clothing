@@ -72,7 +72,7 @@ function Storefront({ addToCart, searchTerm }) {
                 {/* IMAGE + SOLD OUT BADGE */}
                 <div style={{ overflow: "hidden", position: "relative" }}>
                   <img
-                    src={`${import.meta.env.VITE_API_URL}/${p.image}`}
+                    src={p.image?.startsWith("http") ? p.image : `${import.meta.env.VITE_API_URL}/${p.image}`}
                     style={{
                       ...img(isMobile),
                       filter: p.isSoldOut ? "grayscale(60%)" : "none",
@@ -221,4 +221,5 @@ const btn = {
 };
 
 export default Storefront;
+
 

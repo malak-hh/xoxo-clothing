@@ -379,7 +379,7 @@ function AdminDashboard() {
               {products.map((p) => (
                 <div key={p._id} style={listItem}>
                   <img
-                    src={`${import.meta.env.VITE_API_URL}/${p.image}`}
+                    src={p.image?.startsWith("http") ? p.image : `${p.image?.startsWith("http") ? p.image : `${import.meta.env.VITE_API_URL}/${p.image}`}`}
                     alt={p.name}
                     style={{
                       width: "50px",
@@ -501,7 +501,7 @@ function AdminDashboard() {
                     {o.items?.map((item, i) => (
                       <div key={i} style={orderItem}>
                         <img
-                          src={`${import.meta.env.VITE_API_URL}/${item.productImage}`}
+                          src={item.productImage?.startsWith("http") ? item.productImage : `${import.meta.env.VITE_API_URL}/${item.productImage}`}
                           alt={item.productName}
                           style={{
                             width: "55px",
@@ -814,4 +814,5 @@ const rankBadge = {
 };
 
 export default AdminDashboard;
+
 

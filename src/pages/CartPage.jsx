@@ -92,7 +92,7 @@ function CartPage({ cart, removeFromCart, updateQty, clearCart }) {
           <div style={{ display: "flex", flexDirection: "column", gap: "14px", flex: isMobile ? "unset" : 2, minWidth: 0, width: "100%" }}>
             {cart.map((item) => (
               <div key={item._id + item.selectedSize} style={itemCard(isMobile)}>
-                <img src={`${import.meta.env.VITE_API_URL}/${item.image}`} alt={item.name} style={itemImg(isMobile)} />
+                <img src={`${item.image?.startsWith("http") ? item.image : `${import.meta.env.VITE_API_URL}/${item.image}`}`} alt={item.name} style={itemImg(isMobile)} />
 
                 <div style={itemInfo(isMobile)}>
                   <h3 style={{ margin: "0 0 4px", color: "#000", fontSize: isMobile ? "14px" : "15px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</h3>
@@ -259,4 +259,5 @@ const refBox = { margin: "20px auto", padding: "16px 24px", background: "#fff0f3
 const backBtn = { marginTop: "20px", padding: "12px 30px", background: "#000", color: "#fff", border: "none", borderRadius: "30px", cursor: "pointer", fontSize: "15px" };
 
 export default CartPage;
+
 

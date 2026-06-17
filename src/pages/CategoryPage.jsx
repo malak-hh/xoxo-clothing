@@ -63,7 +63,7 @@ function CategoryPage({ addToCart, searchTerm }) {
               <div key={p._id} style={card} onClick={() => navigate(`/product/${p._id}`)}>
                 <div style={{ overflow: "hidden", position: "relative" }}>
                   <img
-                    src={`${import.meta.env.VITE_API_URL}/${p.image}`}
+                    src={p.image?.startsWith("http") ? p.image : `${p.image?.startsWith("http") ? p.image : `${import.meta.env.VITE_API_URL}/${p.image}`}`}
                     alt={p.name}
                     style={{ ...img, filter: p.isSoldOut ? "grayscale(60%)" : "none" }}
                   />
@@ -107,3 +107,4 @@ const discountBadge = { color: "#d81b60", fontWeight: "bold", fontSize: "12px" }
 const btn = { width: "100%", padding: "9px", color: "#fff", border: "none", borderRadius: "8px", marginTop: "8px", fontSize: "13px", fontWeight: "bold", transition: "all 0.3s ease" };
 
 export default CategoryPage;
+

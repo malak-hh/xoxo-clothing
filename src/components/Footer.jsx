@@ -161,3 +161,4 @@ const modalInput = { padding: "12px", borderRadius: "8px", border: "1px solid #d
 const sendBtn = { padding: "12px", background: "#000", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold", fontSize: "15px" };
 
 export default Footer;
+
