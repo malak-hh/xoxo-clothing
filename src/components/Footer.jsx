@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Footer() {
   const [showContact, setShowContact] = useState(false);
   const [formData, setFormData] = useState({ nom: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleContactSubmit = () => {
     if (!formData.nom.trim() || !formData.email.trim() || !formData.message.trim()) {
@@ -64,7 +71,7 @@ function Footer() {
       )}
 
       <footer style={footer}>
-        <div style={container}>
+        <div style={container(isMobile)}>
 
           {/* BRAND */}
           <div style={column}>
@@ -146,7 +153,14 @@ function Footer() {
 
 /* ===== STYLES ===== */
 const footer = { backgroundColor: "#111", color: "#fff", marginTop: "50px", paddingTop: "40px" };
-const container = { width: "90%", margin: "auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "30px", paddingBottom: "30px" };
+const container = (isMobile) => ({
+  width: "90%",
+  margin: "auto",
+  display: "grid",
+  gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+  gap: isMobile ? "24px" : "30px",
+  paddingBottom: "30px",
+});
 const column = {};
 const text = { color: "#ccc", fontSize: "14px" };
 const list = { listStyle: "none", padding: 0, margin: 0 };
@@ -156,9 +170,8 @@ const instaLink = { display: "inline-flex", alignItems: "center", marginTop: "5p
 const bottom = { borderTop: "1px solid #333", textAlign: "center", padding: "15px 0", fontSize: "13px", color: "#aaa" };
 const overlay = { position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center" };
 const modal = { background: "#fff", borderRadius: "16px", padding: "40px", width: "90%", maxWidth: "420px", position: "relative", display: "flex", flexDirection: "column", gap: "12px" };
-const closeBtn = { position: "absolute",color:"#000", top: "14px", right: "16px", background: "none", border: "none", fontSize: "18px", cursor: "pointer" };
+const closeBtn = { position: "absolute", color: "#000", top: "14px", right: "16px", background: "none", border: "none", fontSize: "18px", cursor: "pointer" };
 const modalInput = { padding: "12px", borderRadius: "8px", border: "1px solid #ddd", fontSize: "14px", width: "100%", boxSizing: "border-box" };
 const sendBtn = { padding: "12px", background: "#000", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold", fontSize: "15px" };
 
 export default Footer;
-
