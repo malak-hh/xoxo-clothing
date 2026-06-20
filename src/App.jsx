@@ -43,6 +43,9 @@ function App() {
       )
     );
   };
+  const clearCart = () => {
+  setCart([]);
+};
 
   const cartCount = cart.reduce((sum, i) => sum + (i.qty || 1), 0);
 
@@ -58,7 +61,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Storefront addToCart={addToCart} searchTerm={searchTerm} />} />
         <Route path="/category/:categoryName" element={<CategoryPage addToCart={addToCart} searchTerm={searchTerm} />} />
-        <Route path="/cart" element={<CartPage cart={cart} removeFromCart={removeFromCart} updateQty={updateQty} />} />
+        <Route path="/cart" element={<CartPage cart={cart} removeFromCart={removeFromCart} updateQty={updateQty} clearCart={clearCart}/>} />
         <Route path="/product/:id" element={<ProductPage addToCart={addToCart} />} />
 
         {/*  Admin login — public */}
