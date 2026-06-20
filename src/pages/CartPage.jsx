@@ -21,6 +21,7 @@ function CartPage({ cart, removeFromCart, updateQty, clearCart }) {
   const total = subtotal + delivery;
 
   const handleCheckout = async () => {
+    if (loading) return; // ← protection double-submit
     setError("");
     if (!form.nom.trim()) return setError("Veuillez entrer votre nom.");
     if (!/^\d{8,15}$/.test(form.telephone.trim())) return setError("Numéro de téléphone invalide.");
@@ -92,7 +93,7 @@ function CartPage({ cart, removeFromCart, updateQty, clearCart }) {
           <div style={{ display: "flex", flexDirection: "column", gap: "14px", flex: isMobile ? "unset" : 2, minWidth: 0, width: "100%" }}>
             {cart.map((item) => (
               <div key={item._id + item.selectedSize} style={itemCard(isMobile)}>
-                <img src={`${item.image?.startsWith("http") ? item.image : `${import.meta.env.VITE_API_URL}/${item.image}`}`} alt={item.name} style={itemImg(isMobile)} />
+                <img src={item.image?.startsWith("http") ? item.image : `${import.meta.env.VITE_API_URL}/${item.image}`} alt={item.name} style={itemImg(isMobile)} />
 
                 <div style={itemInfo(isMobile)}>
                   <h3 style={{ margin: "0 0 4px", color: "#000", fontSize: isMobile ? "14px" : "15px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</h3>
@@ -122,7 +123,6 @@ function CartPage({ cart, removeFromCart, updateQty, clearCart }) {
                       <span style={{ minWidth: "16px", textAlign: "center", fontWeight: "bold", fontSize: "14px" }}>{item.qty || 1}</span>
                       <button style={qtyBtn} onClick={() => updateQty(item._id, item.selectedSize, (item.qty || 1) + 1)}>+</button>
                     </div>
-
                     <span style={{ fontWeight: "bold", minWidth: "60px", textAlign: "right", fontSize: "14px" }}>
                       {item.price * (item.qty || 1)} DT
                     </span>
@@ -164,7 +164,7 @@ function CartPage({ cart, removeFromCart, updateQty, clearCart }) {
             <button
               style={{ ...checkoutBtn, opacity: loading ? 0.6 : 1 }}
               onClick={handleCheckout}
-              disabled={loading}
+              disabled={loading || success}
             >
               {loading ? "Envoi en cours..." : "COMMANDER MAINTENANT"}
             </button>
@@ -182,7 +182,6 @@ const pageWrapper = {
   overflowX: "hidden",
   boxSizing: "border-box",
 };
-
 const cartLayout = (isMobile) => ({
   display: "flex",
   flexDirection: isMobile ? "column" : "row",
@@ -190,7 +189,6 @@ const cartLayout = (isMobile) => ({
   alignItems: "flex-start",
   width: "100%",
 });
-
 const itemCard = (isMobile) => ({
   display: "flex",
   alignItems: isMobile ? "flex-start" : "center",
@@ -203,7 +201,6 @@ const itemCard = (isMobile) => ({
   boxSizing: "border-box",
   position: "relative",
 });
-
 const itemImg = (isMobile) => ({
   width: isMobile ? "60px" : "70px",
   height: isMobile ? "60px" : "70px",
@@ -211,22 +208,18 @@ const itemImg = (isMobile) => ({
   borderRadius: "10px",
   flexShrink: 0,
 });
-
 const itemInfo = (isMobile) => ({
   flex: 1,
   minWidth: 0,
   paddingRight: isMobile ? "24px" : "0",
 });
-
 const mobileBottomRow = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   marginTop: "8px",
 };
-
 const qtyBtn = { width: "28px", height: "28px", borderRadius: "50%", border: "1px solid #000", background: "#000", color: "#fff", cursor: "pointer", fontSize: "15px", flexShrink: 0 };
-
 const removeBtn = (isMobile) => ({
   background: "none",
   border: "none",
@@ -238,7 +231,6 @@ const removeBtn = (isMobile) => ({
   top: isMobile ? "12px" : "auto",
   right: isMobile ? "12px" : "auto",
 });
-
 const summaryBox = (isMobile) => ({
   background: "#fff",
   padding: "20px",
@@ -249,7 +241,6 @@ const summaryBox = (isMobile) => ({
   minWidth: isMobile ? "unset" : "280px",
   boxSizing: "border-box",
 });
-
 const summaryRow = { display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "15px" };
 const formInput = { display: "block", width: "100%", padding: "11px", borderRadius: "8px", border: "1px solid #ddd", marginBottom: "10px", fontSize: "14px", boxSizing: "border-box" };
 const errorBox = { padding: "10px 14px", background: "#fff0f3", border: "1px solid #e91e63", borderRadius: "8px", color: "#c0003c", fontSize: "14px", marginBottom: "12px" };
@@ -259,5 +250,3 @@ const refBox = { margin: "20px auto", padding: "16px 24px", background: "#fff0f3
 const backBtn = { marginTop: "20px", padding: "12px 30px", background: "#000", color: "#fff", border: "none", borderRadius: "30px", cursor: "pointer", fontSize: "15px" };
 
 export default CartPage;
-
-
