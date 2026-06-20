@@ -44,6 +44,7 @@ function CartPage({ cart, removeFromCart, updateQty, clearCart }) {
       });
 
       const data = await res.json();
+      console.log("Response:", res.ok, res.status, data);
       if (res.ok) {
         clearCart();
         setOrderRef(data.order.ref);
@@ -51,7 +52,8 @@ function CartPage({ cart, removeFromCart, updateQty, clearCart }) {
       } else {
         setError(data.error || "Erreur lors de la commande.");
       }
-    } catch {
+    } catch(err) {
+      console.error("CATCH ERROR:", err);
       setError("Erreur réseau. Vérifiez votre connexion.");
     } finally {
       setLoading(false);
